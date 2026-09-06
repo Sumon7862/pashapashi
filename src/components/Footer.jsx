@@ -1,8 +1,11 @@
-import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { FaFacebookF, FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import logo from '../assets/favicon.png';
+import useSiteStats from "../hooks/useSiteStats";
 
 export default function Footer() {
+  const { orders, visitors, online } = useSiteStats();
+
   return (
     <footer className="bg-gray-800 text-gray-200 mt-12">
       <div className="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-12">
@@ -51,7 +54,24 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-gray-700 mt-6 p-4 text-center text-gray-500 text-sm">
+      <div className="border-t border-gray-700 mt-6">
+        <div className="max-w-6xl mx-auto px-4 py-5 grid grid-cols-3 gap-4 text-center">
+          <div>
+            <p className="text-white text-xl font-semibold">{orders}</p>
+            <p className="text-gray-400 text-xs sm:text-sm">মোট অর্ডার</p>
+          </div>
+          <div>
+            <p className="text-white text-xl font-semibold">{online}</p>
+            <p className="text-gray-400 text-xs sm:text-sm">এখন অনলাইন</p>
+          </div>
+          <div>
+            <p className="text-white text-xl font-semibold">{visitors}</p>
+            <p className="text-gray-400 text-xs sm:text-sm">মোট ভিজিটর</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-gray-700 p-4 text-center text-gray-500 text-sm">
         © ২০২৬ পাশাপাশি. সর্বস্বত্ব সংরক্ষিত।
       </div>
     </footer>
