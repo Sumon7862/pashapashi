@@ -1,28 +1,53 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function ProductDetails({ products }) {
+export default function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { items: products, status } = useSelector(s => s.products);
 
-  const product = products.find(p => p.id == id);
+  const product = products.find(p => String(p.id) === String(id));
   const [qty, setQty] = useState(1);
-  const [img, setImg] = useState(product.images[0]);
+  const [img, setImg] = useState("");
+
+  useEffect(() => {
+    if (product?.images?.[0]) setImg(product.images[0]);
+  }, [product]);
+
+  if (status === "idle" || status === "loading") {
+    return (
+      <div className="max-w-6xl mx-auto mt-28 px-4 text-center text-gray-500">
+        লোড হচ্ছে...
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="max-w-6xl mx-auto mt-28 px-4 text-center text-gray-500">
+        <p>পণ্য পাওয়া যায়নি</p>
+        <button onClick={() => navigate("/")} className="mt-4 text-green-700">
+          ← হোমে ফিরুন
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto mt-24 px-4 grid md:grid-cols-2 gap-8">
       <div>
-        <img src={img} className="w-full rounded-xl" />
+        <img src={img} alt={product.title} className="w-full rounded-xl" />
         <div className="flex gap-3 mt-3">
-          {product.images.map(i => (
+          {(product.images || []).map(i => (
             <img
               key={i}
               src={i}
+              alt=""
               onClick={() => setImg(i)}
-              className="w-16 h-16 border cursor-pointer"
+              className="w-16 h-16 border cursor-pointer object-cover"
             />
           ))}
         </div>

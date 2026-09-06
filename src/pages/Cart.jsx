@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { inc, dec, removeFromCart, clear } from "../redux/cartSlice";
+import { addOrder } from "../redux/ordersSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
@@ -10,30 +11,54 @@ export default function Cart() {
   const total = items.reduce((s, i) => s + i.qty * i.price, 0);
 
   const [showForm, setShowForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [buyerName, setBuyerName] = useState("");
   const [buyerPhone, setBuyerPhone] = useState("");
   const [buyerAddress, setBuyerAddress] = useState("");
   const [buyerLocation, setBuyerLocation] = useState("");
 
-  const sendOrder = e => {
+  const sendOrder = async e => {
     e.preventDefault();
     if (!buyerName || !buyerPhone || !buyerAddress) {
       alert("দয়া করে নাম, ফোন নম্বর এবং ঠিকানা পূরণ করুন");
       return;
     }
 
-    const orderMsg = items.map(i => `${i.title} x ${i.qty}`).join("\n");
-    let message = `নতুন অর্ডার\n${orderMsg}\nমোট: ৳ ${total}\n\n`;
-    message += `Buyer: ${buyerName}\nPhone: ${buyerPhone}\nAddress: ${buyerAddress}`;
-    if (buyerLocation) message += `\nLive Location: ${buyerLocation}`;
+    setSubmitting(true);
+    try {
+      await dispatch(addOrder({
+        status: "pending",
+        buyerName,
+        buyerPhone,
+        buyerAddress,
+        buyerLocation,
+        items: items.map(i => ({
+          id: i.id,
+          title: i.title,
+          qty: i.qty,
+          price: i.price,
+          image: i.images?.[0] || "",
+        })),
+        total,
+      })).unwrap();
 
-    window.open(`https://wa.me/8801937952527?text=${encodeURIComponent(message)}`);
-    dispatch(clear());
-    setShowForm(false);
-    setBuyerName("");
-    setBuyerPhone("");
-    setBuyerAddress("");
-    setBuyerLocation("");
+      const orderMsg = items.map(i => `${i.title} x ${i.qty}`).join("\n");
+      let message = `নতুন অর্ডার\n${orderMsg}\nমোট: ৳ ${total}\n\n`;
+      message += `Buyer: ${buyerName}\nPhone: ${buyerPhone}\nAddress: ${buyerAddress}`;
+      if (buyerLocation) message += `\nLive Location: ${buyerLocation}`;
+
+      window.open(`https://wa.me/8801937952527?text=${encodeURIComponent(message)}`);
+      dispatch(clear());
+      setShowForm(false);
+      setBuyerName("");
+      setBuyerPhone("");
+      setBuyerAddress("");
+      setBuyerLocation("");
+    } catch (err) {
+      alert(err.message || "অর্ডার সেভ হয়নি। আবার চেষ্টা করুন।");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -118,9 +143,10 @@ export default function Cart() {
               />
               <button
                 type="submit"
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+                disabled={submitting}
+                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition disabled:opacity-60"
               >
-                অর্ডার পাঠান
+                {submitting ? "পাঠানো হচ্ছে..." : "অর্ডার পাঠান"}
               </button>
             </form>
           </div>

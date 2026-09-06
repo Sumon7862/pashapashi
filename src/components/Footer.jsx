@@ -31,6 +31,9 @@ export default function Footer() {
             <li className="flex items-center gap-2">
               📘 <a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="hover:text-white">ফেসবুক পেজ</a>
             </li>
+            <li>
+              <Link to="/admin" className="hover:text-white">অ্যাডমিন প্যানেল</Link>
+            </li>
           </ul>
         </div>
 

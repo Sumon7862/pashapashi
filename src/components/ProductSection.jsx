@@ -5,6 +5,9 @@ export default function ProductSection({ products }) {
   const [cat, setCat] = useState("all");
   const [limit, setLimit] = useState(8);
 
+  const categories = [...new Set(products.map(p => p.category).filter(Boolean))];
+  const labels = { grocery: "মুদি", snacks: "নাস্তা" };
+
   const list = products
     .filter(p => cat === "all" || p.category === cat)
     .slice(0, limit);
@@ -18,10 +21,11 @@ export default function ProductSection({ products }) {
         </p>
 
         <div className="flex justify-between mb-6">
-          <select onChange={e => setCat(e.target.value)} className="w-20 h-10 border px-3 py-1 rounded-md">
+          <select onChange={e => setCat(e.target.value)} className="min-w-20 h-10 border px-3 py-1 rounded-md">
             <option value="all">সব</option>
-            <option value="grocery">মুদি</option>
-            <option value="snacks">নাস্তা</option>
+            {categories.map(c => (
+              <option key={c} value={c}>{labels[c] || c}</option>
+            ))}
           </select>
 
           <select onChange={e => setLimit(+e.target.value)} className="w-30 h-10 border px-3 py-1 rounded-md">

@@ -14,7 +14,7 @@ export default function ProductCard({ product }) {
       {/* IMAGE WRAPPER */}
       <div className="relative overflow-hidden group">
         <img
-          src={product.images[0]}
+          src={product.images?.[0]}
           alt={product.title}
           className="h-40 w-full object-cover transform transition duration-300 group-hover:scale-105"
         />
@@ -43,9 +43,11 @@ export default function ProductCard({ product }) {
         <p className="text-xs text-gray-500">{product.weight}</p>
         <div className="flex gap-2 mt-1 items-center">
           <span className="font-semibold text-gray-900">৳ {product.price}</span>
-          <span className="line-through text-gray-400 text-sm">
-            ৳ {product.oldPrice}
-          </span>
+          {product.oldPrice ? (
+            <span className="line-through text-gray-400 text-sm">
+              ৳ {product.oldPrice}
+            </span>
+          ) : null}
         </div>
       </div>
     </div>
