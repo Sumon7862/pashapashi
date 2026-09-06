@@ -37,6 +37,12 @@ export const updateOrderStatus = createAsyncThunk(
   }
 );
 
+export const deleteOrder = createAsyncThunk("orders/delete", async id => {
+  const { error } = await supabase.from("orders").delete().eq("id", id);
+  if (error) throw error;
+  return id;
+});
+
 const slice = createSlice({
   name: "orders",
   initialState: { items: [], status: "idle", error: null },
@@ -61,6 +67,9 @@ const slice = createSlice({
       .addCase(updateOrderStatus.fulfilled, (state, { payload }) => {
         const index = state.items.findIndex(o => o.id === payload.id);
         if (index >= 0) state.items[index] = payload;
+      })
+      .addCase(deleteOrder.fulfilled, (state, { payload }) => {
+        state.items = state.items.filter(o => o.id !== payload);
       });
   },
 });

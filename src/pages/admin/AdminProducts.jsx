@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { addProduct, deleteProduct } from "../../redux/productsSlice";
+import { Link, useSearchParams } from "react-router-dom";
+import { addProduct, deleteProduct, updateProduct } from "../../redux/productsSlice";
 import { uploadProductImage } from "../../lib/storage";
 
 const emptyForm = {
@@ -17,11 +17,36 @@ const emptyForm = {
 export default function AdminProducts() {
   const products = useSelector(s => s.products.items);
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [files, setFiles] = useState([]);
   const [saving, setSaving] = useState(false);
   const [query, setQuery] = useState("");
+
+  const fillForm = product => {
+    setEditingId(product.id);
+    setForm({
+      title: product.title || "",
+      category: product.category || "grocery",
+      price: product.price ?? "",
+      oldPrice: product.oldPrice ?? "",
+      weight: product.weight || "",
+      description: product.description || "",
+      imagesText: (product.images || []).join("\n"),
+    });
+    setFiles([]);
+    setShowForm(true);
+  };
+
+  useEffect(() => {
+    const editId = searchParams.get("edit");
+    if (!editId || !products.length) return;
+    const product = products.find(p => String(p.id) === String(editId));
+    if (product) fillForm(product);
+    setSearchParams({}, { replace: true });
+  }, [products, searchParams, setSearchParams]);
 
   const filtered = products.filter(p =>
     [p.title, p.category, p.description].join(" ").toLowerCase().includes(query.toLowerCase())
@@ -47,7 +72,7 @@ export default function AdminProducts() {
         : [];
       const images = [...uploaded, ...fromUrls];
 
-      await dispatch(addProduct({
+      const payload = {
         title: form.title.trim(),
         category: form.category.trim() || "grocery",
         price: Number(form.price),
@@ -55,10 +80,17 @@ export default function AdminProducts() {
         weight: form.weight.trim(),
         description: form.description.trim(),
         images: images.length ? images : ["https://images.unsplash.com/photo-1542838132-92c53300491e"],
-      })).unwrap();
+      };
+
+      if (editingId) {
+        await dispatch(updateProduct({ id: editingId, ...payload })).unwrap();
+      } else {
+        await dispatch(addProduct(payload)).unwrap();
+      }
 
       setForm(emptyForm);
       setFiles([]);
+      setEditingId(null);
       setShowForm(false);
     } catch (err) {
       alert(err.message || "পণ্য সেভ হয়নি");
@@ -81,7 +113,12 @@ export default function AdminProducts() {
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <h1 className="text-2xl font-semibold">পণ্যসমূহ</h1>
         <button
-          onClick={() => setShowForm(true)}
+          onClick={() => {
+            setEditingId(null);
+            setForm(emptyForm);
+            setFiles([]);
+            setShowForm(true);
+          }}
           className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
         >
           + পণ্য যোগ করুন
@@ -127,6 +164,7 @@ export default function AdminProducts() {
                 <td className="pr-3">
                   <div className="flex gap-3">
                     <Link to={`/admin/products/${p.id}`} className="text-green-700 hover:underline">বিস্তারিত</Link>
+                    <button onClick={() => fillForm(p)} className="text-green-700 hover:underline">সম্পাদনা</button>
                     <button onClick={() => remove(p.id, p.title)} className="text-red-600 hover:underline">মুছুন</button>
                   </div>
                 </td>
@@ -141,12 +179,15 @@ export default function AdminProducts() {
           <form onSubmit={onSubmit} className="bg-white rounded-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto relative">
             <button
               type="button"
-              onClick={() => setShowForm(false)}
+              onClick={() => {
+                setShowForm(false);
+                setEditingId(null);
+              }}
               className="absolute top-3 right-3 text-gray-500"
             >
               ✕
             </button>
-            <h2 className="text-lg font-semibold mb-4">নতুন পণ্য</h2>
+            <h2 className="text-lg font-semibold mb-4">{editingId ? "পণ্য সম্পাদনা" : "নতুন পণ্য"}</h2>
 
             <Field label="পণ্যের নাম" name="title" value={form.title} onChange={onChange} required />
             <Field label="ক্যাটাগরি" name="category" value={form.category} onChange={onChange} placeholder="grocery / snacks" />

@@ -44,6 +44,7 @@ export default function AdminLayout() {
           <NavLink to="/admin" end className={linkClass}>ড্যাশবোর্ড</NavLink>
           <NavLink to="/admin/products" className={linkClass}>পণ্যসমূহ</NavLink>
           <NavLink to="/admin/orders" className={linkClass}>অর্ডারসমূহ</NavLink>
+          <NavLink to="/admin/settings" className={linkClass}>সেটিংস</NavLink>
         </nav>
 
         <div className="mt-auto flex flex-col gap-2">

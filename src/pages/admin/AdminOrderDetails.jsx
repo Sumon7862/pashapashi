@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { updateOrderStatus } from "../../redux/ordersSlice";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { deleteOrder, updateOrderStatus } from "../../redux/ordersSlice";
 
 const statuses = [
   { value: "pending", label: "নতুন" },
@@ -12,7 +12,18 @@ const statuses = [
 export default function AdminOrderDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const order = useSelector(s => s.orders.items.find(o => String(o.id) === String(id)));
+
+  const remove = async () => {
+    if (!window.confirm("এই অর্ডার মুছে ফেলতে চান?")) return;
+    try {
+      await dispatch(deleteOrder(order.id)).unwrap();
+      navigate("/admin/orders");
+    } catch (err) {
+      alert(err.message || "অর্ডার মুছা যায়নি");
+    }
+  };
 
   if (!order) {
     return (
@@ -28,15 +39,20 @@ export default function AdminOrderDetails() {
       <Link to="/admin/orders" className="text-gray-600 hover:text-gray-900">← অর্ডার তালিকা</Link>
       <div className="flex flex-wrap items-center justify-between gap-3 mt-3 mb-6">
         <h1 className="text-2xl font-semibold">অর্ডার #{order.id}</h1>
-        <select
-          value={order.status}
-          onChange={e => dispatch(updateOrderStatus({ id: order.id, status: e.target.value })).unwrap().catch(err => alert(err.message))}
-          className="border border-gray-300 rounded px-3 py-2 bg-white"
-        >
-          {statuses.map(s => (
-            <option key={s.value} value={s.value}>{s.label}</option>
-          ))}
-        </select>
+        <div className="flex flex-wrap gap-2">
+          <select
+            value={order.status}
+            onChange={e => dispatch(updateOrderStatus({ id: order.id, status: e.target.value })).unwrap().catch(err => alert(err.message))}
+            className="border border-gray-300 rounded px-3 py-2 bg-white"
+          >
+            {statuses.map(s => (
+              <option key={s.value} value={s.value}>{s.label}</option>
+            ))}
+          </select>
+          <button onClick={remove} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+            অর্ডার মুছুন
+          </button>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 mb-6">

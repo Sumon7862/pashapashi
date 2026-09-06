@@ -42,9 +42,17 @@ export default function AdminProductDetails() {
       <Link to="/admin/products" className="text-gray-600 hover:text-gray-900">← পণ্য তালিকা</Link>
       <div className="flex flex-wrap items-start justify-between gap-3 mt-3 mb-6">
         <h1 className="text-2xl font-semibold">{product.title}</h1>
-        <button onClick={remove} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-          পণ্য মুছুন
-        </button>
+        <div className="flex gap-2">
+          <Link
+            to={`/admin/products?edit=${product.id}`}
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            সম্পাদনা
+          </Link>
+          <button onClick={remove} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+            পণ্য মুছুন
+          </button>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">

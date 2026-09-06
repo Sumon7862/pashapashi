@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { deleteOrder } from "../../redux/ordersSlice";
 
 const statusLabel = {
   pending: "নতুন",
@@ -11,7 +12,17 @@ const statusLabel = {
 
 export default function AdminOrders() {
   const { items: orders, status } = useSelector(s => s.orders);
+  const dispatch = useDispatch();
   const [query, setQuery] = useState("");
+
+  const remove = async (id, name) => {
+    if (!window.confirm(`${name}-এর অর্ডার মুছে ফেলতে চান?`)) return;
+    try {
+      await dispatch(deleteOrder(id)).unwrap();
+    } catch (err) {
+      alert(err.message || "অর্ডার মুছা যায়নি");
+    }
+  };
 
   const filtered = orders.filter(o =>
     [o.buyerName, o.buyerPhone, o.buyerAddress, String(o.id)]
@@ -64,7 +75,10 @@ export default function AdminOrders() {
                 <td>৳ {o.total}</td>
                 <td>{statusLabel[o.status] || o.status}</td>
                 <td className="pr-3">
-                  <Link to={`/admin/orders/${o.id}`} className="text-green-700 hover:underline">বিস্তারিত</Link>
+                  <div className="flex gap-3">
+                    <Link to={`/admin/orders/${o.id}`} className="text-green-700 hover:underline">বিস্তারিত</Link>
+                    <button onClick={() => remove(o.id, o.buyerName)} className="text-red-600 hover:underline">মুছুন</button>
+                  </div>
                 </td>
               </tr>
             ))}

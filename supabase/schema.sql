@@ -33,7 +33,7 @@ grant usage on schema public to anon, authenticated;
 grant select on public.products to anon, authenticated;
 grant insert, update, delete on public.products to authenticated;
 grant insert on public.orders to anon, authenticated;
-grant select, update on public.orders to authenticated;
+grant select, update, delete on public.orders to authenticated;
 
 drop policy if exists "Public read products" on public.products;
 drop policy if exists "Admin insert products" on public.products;
@@ -42,6 +42,7 @@ drop policy if exists "Admin delete products" on public.products;
 drop policy if exists "Anyone can create orders" on public.orders;
 drop policy if exists "Admin read orders" on public.orders;
 drop policy if exists "Admin update orders" on public.orders;
+drop policy if exists "Admin delete orders" on public.orders;
 
 create policy "Public read products"
   on public.products for select
@@ -79,6 +80,11 @@ create policy "Admin update orders"
   to authenticated
   using (auth.uid() = '464542a7-92b0-42d0-895f-3effaf3a9c2b')
   with check (auth.uid() = '464542a7-92b0-42d0-895f-3effaf3a9c2b');
+
+create policy "Admin delete orders"
+  on public.orders for delete
+  to authenticated
+  using (auth.uid() = '464542a7-92b0-42d0-895f-3effaf3a9c2b');
 
 insert into storage.buckets (id, name, public)
 values ('product-images', 'product-images', true)

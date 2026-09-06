@@ -13,6 +13,7 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import AdminProductDetails from "./pages/admin/AdminProductDetails";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminOrderDetails from "./pages/admin/AdminOrderDetails";
+import AdminSettings from "./pages/admin/AdminSettings";
 
 function StoreLayout() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="products/:id" element={<AdminProductDetails />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="orders/:id" element={<AdminOrderDetails />} />
+          <Route path="settings" element={<AdminSettings />} />
         </Route>
         <Route element={<StoreLayout />}>
           <Route path="/" element={<Home />} />

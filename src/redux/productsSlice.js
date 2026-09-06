@@ -21,6 +21,17 @@ export const addProduct = createAsyncThunk("products/add", async product => {
   return mapProduct(data);
 });
 
+export const updateProduct = createAsyncThunk("products/update", async ({ id, ...product }) => {
+  const { data, error } = await supabase
+    .from("products")
+    .update(toProductRow(product))
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) throw error;
+  return mapProduct(data);
+});
+
 export const deleteProduct = createAsyncThunk("products/delete", async id => {
   const { error } = await supabase.from("products").delete().eq("id", id);
   if (error) throw error;
@@ -47,6 +58,10 @@ const slice = createSlice({
       })
       .addCase(addProduct.fulfilled, (state, { payload }) => {
         state.items.unshift(payload);
+      })
+      .addCase(updateProduct.fulfilled, (state, { payload }) => {
+        const index = state.items.findIndex(p => p.id === payload.id);
+        if (index >= 0) state.items[index] = payload;
       })
       .addCase(deleteProduct.fulfilled, (state, { payload }) => {
         state.items = state.items.filter(p => p.id !== payload);

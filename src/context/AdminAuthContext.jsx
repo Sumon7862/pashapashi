@@ -43,6 +43,17 @@ export function AdminAuthProvider({ children }) {
       return supabase.auth.signInWithPassword({ email, password });
     },
     logout: () => supabase ? supabase.auth.signOut() : Promise.resolve(),
+    changePassword: async (currentPassword, newPassword) => {
+      if (!supabase || !session?.user?.email) {
+        return { error: { message: "Supabase is not configured" } };
+      }
+      const { error: check } = await supabase.auth.signInWithPassword({
+        email: session.user.email,
+        password: currentPassword,
+      });
+      if (check) return { error: { message: "বর্তমান পাসওয়ার্ড ভুল" } };
+      return supabase.auth.updateUser({ password: newPassword });
+    },
   }), [session, loading]);
 
   return (
