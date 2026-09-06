@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/((?!sitemap\\.xml$|robots\\.txt$|favicon\\.png$).*)",
+      "source": "/((?!sitemap\\.xml$|robots\\.txt$|favicon\\.png$|googlebab8256c60e74619\\.html$).*)",
       "destination": "/index.html"
     }
   ]
