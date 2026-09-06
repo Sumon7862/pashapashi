@@ -62,7 +62,7 @@ export default function Cart() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-28 px-4">
+    <div className="max-w-4xl mx-auto mt-20 sm:mt-28 px-3 sm:px-4 pb-8">
       <button onClick={() => nav(-1)} className="mb-4 text-gray-700 hover:text-gray-900">
         ← পেছনে
       </button>
@@ -70,28 +70,30 @@ export default function Cart() {
       {items.length === 0 ? (
         <p className="text-center text-gray-500 mt-20">আপনার কার্ট খালি</p>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm p-6 mt-4">
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 mt-4">
           {items.map(i => (
-            <div key={i.id} className="flex justify-between py-3 border-b items-center">
-              <span>{i.title}</span>
-              <div className="flex items-center gap-2">
-                <button onClick={() => dispatch(dec(i.id))} className="px-2 bg-gray-200 rounded">-</button>
-                <span>{i.qty}</span>
-                <button onClick={() => dispatch(inc(i.id))} className="px-2 bg-gray-200 rounded">+</button>
+            <div key={i.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 py-3 border-b">
+              <span className="font-medium break-words">{i.title}</span>
+              <div className="flex items-center justify-between sm:justify-end gap-4">
+                <div className="flex items-center gap-2">
+                  <button onClick={() => dispatch(dec(i.id))} className="px-3 py-1 bg-gray-200 rounded">-</button>
+                  <span>{i.qty}</span>
+                  <button onClick={() => dispatch(inc(i.id))} className="px-3 py-1 bg-gray-200 rounded">+</button>
+                </div>
+                <span className="whitespace-nowrap">৳ {i.qty * i.price}</span>
+                <button onClick={() => dispatch(removeFromCart(i.id))} className="text-red-500 font-bold px-2">✕</button>
               </div>
-              <span>৳ {i.qty * i.price}</span>
-              <button onClick={() => dispatch(removeFromCart(i.id))} className="text-red-500 font-bold">✕</button>
             </div>
           ))}
 
-          <div className="text-right mt-6">
+          <div className="mt-6 text-left sm:text-right">
             <p className="font-semibold">মোট: ৳ {total}</p>
-            <p className="text-sm text-gray-500 mb-2">
+            <p className="text-sm text-gray-500 mb-3">
               ডেলিভারির আগে আমরা আপনার অর্ডার WhatsApp-এর মাধ্যমে নিশ্চিত করব
             </p>
             <button
               onClick={() => setShowForm(true)}
-              className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
+              className="w-full sm:w-auto bg-green-600 text-white px-6 py-2.5 rounded hover:bg-green-700 transition"
             >
               অর্ডার নিশ্চিত করুন
             </button>
@@ -99,10 +101,9 @@ export default function Cart() {
         </div>
       )}
 
-      {/* Order Form Modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md relative">
+        <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
+          <div className="bg-white rounded-t-xl sm:rounded-xl p-6 w-full max-w-md relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setShowForm(false)}
               className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
@@ -144,7 +145,7 @@ export default function Cart() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition disabled:opacity-60"
+                className="bg-green-600 text-white px-4 py-2.5 rounded hover:bg-green-700 transition disabled:opacity-60"
               >
                 {submitting ? "পাঠানো হচ্ছে..." : "অর্ডার পাঠান"}
               </button>

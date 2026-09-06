@@ -38,7 +38,7 @@ export default function AdminOrderDetails() {
     <div>
       <Link to="/admin/orders" className="text-gray-600 hover:text-gray-900">← অর্ডার তালিকা</Link>
       <div className="flex flex-wrap items-center justify-between gap-3 mt-3 mb-6">
-        <h1 className="text-2xl font-semibold">অর্ডার #{order.id}</h1>
+        <h1 className="text-lg sm:text-2xl font-semibold break-all">অর্ডার #{order.id}</h1>
         <div className="flex flex-wrap gap-2">
           <select
             value={order.status}
@@ -73,7 +73,7 @@ export default function AdminOrderDetails() {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-sm min-w-[480px]">
           <thead className="text-left text-gray-500 border-b bg-gray-50">
             <tr>
               <th className="p-3">পণ্য</th>

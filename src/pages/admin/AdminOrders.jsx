@@ -33,7 +33,7 @@ export default function AdminOrders() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold mb-6">অর্ডারসমূহ</h1>
+      <h1 className="text-xl sm:text-2xl font-semibold mb-6">অর্ডারসমূহ</h1>
 
       <input
         value={query}
@@ -43,7 +43,7 @@ export default function AdminOrders() {
       />
 
       <div className="bg-white rounded-xl shadow-sm overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-sm min-w-[720px]">
           <thead className="text-left text-gray-500 border-b bg-gray-50">
             <tr>
               <th className="p-3">অর্ডার</th>

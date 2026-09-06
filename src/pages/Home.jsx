@@ -10,7 +10,7 @@ export default function Home() {
     <div>
       <BannerSlider />
       {!isSupabaseConfigured && (
-        <p className="max-w-6xl mx-auto mt-6 px-4 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg py-3">
+        <p className="max-w-6xl mx-auto mt-6 px-3 sm:px-4 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg py-3">
           ডাটাবেস সংযুক্ত নয়। `.env` এ Supabase URL ও anon key বসিয়ে dev সার্ভার রিস্টার্ট করুন।
         </p>
       )}

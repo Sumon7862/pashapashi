@@ -2,6 +2,11 @@
 
 @import "tailwindcss";
 
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 body {
     background-color: #f9fafb;
     font-family: 'Noto Serif Bengali', serif;

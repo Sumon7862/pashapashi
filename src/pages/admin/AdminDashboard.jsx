@@ -17,13 +17,13 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold mb-6">ড্যাশবোর্ড</h1>
+      <h1 className="text-xl sm:text-2xl font-semibold mb-6">ড্যাশবোর্ড</h1>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
         {cards.map(c => (
-          <Link key={c.label} to={c.to} className="bg-white rounded-xl shadow-sm p-5 hover:shadow-md">
-            <p className="text-sm text-gray-500">{c.label}</p>
-            <p className="text-2xl font-semibold mt-1">{c.value}</p>
+          <Link key={c.label} to={c.to} className="bg-white rounded-xl shadow-sm p-3 sm:p-5 hover:shadow-md">
+            <p className="text-xs sm:text-sm text-gray-500">{c.label}</p>
+            <p className="text-lg sm:text-2xl font-semibold mt-1 break-all">{c.value}</p>
           </Link>
         ))}
       </div>
@@ -40,7 +40,7 @@ export default function AdminDashboard() {
           <p className="text-gray-500 text-sm">এখনো কোনো অর্ডার নেই</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm min-w-[420px]">
               <thead className="text-left text-gray-500 border-b">
                 <tr>
                   <th className="py-2">ক্রেতা</th>

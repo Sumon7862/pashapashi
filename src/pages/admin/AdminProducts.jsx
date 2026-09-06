@@ -111,7 +111,7 @@ export default function AdminProducts() {
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-        <h1 className="text-2xl font-semibold">পণ্যসমূহ</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold">পণ্যসমূহ</h1>
         <button
           onClick={() => {
             setEditingId(null);
@@ -119,7 +119,7 @@ export default function AdminProducts() {
             setFiles([]);
             setShowForm(true);
           }}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          className="w-full sm:w-auto bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
         >
           + পণ্য যোগ করুন
         </button>
@@ -133,7 +133,7 @@ export default function AdminProducts() {
       />
 
       <div className="bg-white rounded-xl shadow-sm overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-sm min-w-[640px]">
           <thead className="text-left text-gray-500 border-b bg-gray-50">
             <tr>
               <th className="p-3">ছবি</th>
@@ -175,8 +175,8 @@ export default function AdminProducts() {
       </div>
 
       {showForm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <form onSubmit={onSubmit} className="bg-white rounded-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto relative">
+        <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
+          <form onSubmit={onSubmit} className="bg-white rounded-t-xl sm:rounded-xl p-5 sm:p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto relative">
             <button
               type="button"
               onClick={() => {

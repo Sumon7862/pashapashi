@@ -8,7 +8,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-gray-800 text-gray-200 mt-12">
-      <div className="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-12">
+      <div className="max-w-6xl mx-auto px-4 py-8 sm:py-10 grid sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
         
         {/* Brand + Tagline */}
         <div className="flex flex-col gap-2">

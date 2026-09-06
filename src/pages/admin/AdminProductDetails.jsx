@@ -41,8 +41,8 @@ export default function AdminProductDetails() {
     <div>
       <Link to="/admin/products" className="text-gray-600 hover:text-gray-900">← পণ্য তালিকা</Link>
       <div className="flex flex-wrap items-start justify-between gap-3 mt-3 mb-6">
-        <h1 className="text-2xl font-semibold">{product.title}</h1>
-        <div className="flex gap-2">
+        <h1 className="text-xl sm:text-2xl font-semibold break-words">{product.title}</h1>
+        <div className="flex flex-wrap gap-2">
           <Link
             to={`/admin/products?edit=${product.id}`}
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"

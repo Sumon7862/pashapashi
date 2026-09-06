@@ -41,8 +41,8 @@ export default function AdminSettings() {
 
   return (
     <div className="max-w-md">
-      <h1 className="text-2xl font-semibold mb-2">সেটিংস</h1>
-      <p className="text-sm text-gray-500 mb-6">{session?.user?.email}</p>
+      <h1 className="text-xl sm:text-2xl font-semibold mb-2">সেটিংস</h1>
+      <p className="text-sm text-gray-500 mb-6 break-all">{session?.user?.email}</p>
 
       <form onSubmit={onSubmit} className="bg-white rounded-xl shadow-sm p-5">
         <h2 className="font-semibold mb-4">পাসওয়ার্ড পরিবর্তন</h2>

@@ -27,7 +27,7 @@ export default function BannerSlider() {
   const goToSlide = (index) => sliderRef.current.slickGoTo(index);
 
   return (
-    <div className="max-w-6xl mx-auto relative mt-20">
+    <div className="max-w-6xl mx-auto relative mt-16 sm:mt-20 px-3 sm:px-4">
       {/* Main Slider */}
       <Slider {...settings} ref={sliderRef}>
         {banners.map((banner) => (
@@ -35,7 +35,7 @@ export default function BannerSlider() {
             <img
               src={banner.image}
               alt={banner.alt}
-              className="w-full h-64 md:h-96 object-cover rounded-lg"
+              className="w-full h-40 sm:h-64 md:h-96 object-cover rounded-lg"
             />
           </div>
         ))}
@@ -44,17 +44,17 @@ export default function BannerSlider() {
       {/* Left Arrow */}
       <button
         onClick={prevSlide}
-        className="absolute top-1/2 -translate-y-1/2 left-2 p-2 bg-black bg-opacity-40 rounded-full text-white hover:bg-opacity-70 z-10"
+        className="absolute top-1/2 -translate-y-1/2 left-2 p-1.5 sm:p-2 bg-black/40 rounded-full text-white hover:bg-black/70 z-10"
       >
-        <ChevronLeftIcon className="w-6 h-6" />
+        <ChevronLeftIcon className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
 
       {/* Right Arrow */}
       <button
         onClick={nextSlide}
-        className="absolute top-1/2 -translate-y-1/2 right-2 p-2 bg-black bg-opacity-40 rounded-full text-white hover:bg-opacity-70 z-10"
+        className="absolute top-1/2 -translate-y-1/2 right-2 p-1.5 sm:p-2 bg-black/40 rounded-full text-white hover:bg-black/70 z-10"
       >
-        <ChevronRightIcon className="w-6 h-6" />
+        <ChevronRightIcon className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
 
       {/* Thumbnails / Circles */}
