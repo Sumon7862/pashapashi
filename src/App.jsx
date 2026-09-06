@@ -5,6 +5,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Footer from "./components/Footer";
 import DataLoader from "./components/DataLoader";
+import Seo from "./components/Seo";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -27,6 +28,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <DataLoader />
+      <Seo />
       <Routes>
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>

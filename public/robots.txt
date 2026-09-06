@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /cart
+
+Sitemap: https://pashapashi.vercel.app/sitemap.xml

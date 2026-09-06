@@ -29,3 +29,15 @@ Follow [supabase/README.md](supabase/README.md): create a project, run `supabase
 4. Deploy. `vercel.json` rewrites unknown paths to `index.html` so `/admin` and `/cart` work.
 
 Admin login uses the email/password you created in Supabase Auth — not a hardcoded frontend password.
+
+## Google Search
+
+The live site is [https://pashapashi.vercel.app](https://pashapashi.vercel.app).
+
+1. Open [Google Search Console](https://search.google.com/search-console).
+2. Add property → URL prefix → `https://pashapashi.vercel.app`.
+3. Verify with the HTML tag or DNS method Google shows.
+4. Sitemaps → add `https://pashapashi.vercel.app/sitemap.xml`.
+5. URL Inspection → `https://pashapashi.vercel.app/` → Request indexing.
+
+Google usually takes a few days to show the site in search results.

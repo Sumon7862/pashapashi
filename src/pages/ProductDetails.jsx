@@ -15,6 +15,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (product?.images?.[0]) setImg(product.images[0]);
+    if (product?.title) document.title = `${product.title} | পাশাপাশি`;
   }, [product]);
 
   if (status === "idle" || status === "loading") {
