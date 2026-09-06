@@ -12,13 +12,15 @@ export const fetchOrders = createAsyncThunk("orders/fetch", async () => {
 });
 
 export const addOrder = createAsyncThunk("orders/add", async order => {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("orders")
-    .insert(toOrderRow(order))
-    .select()
-    .single();
+    .insert(toOrderRow(order));
   if (error) throw error;
-  return mapOrder(data);
+  return {
+    ...order,
+    id: order.id || crypto.randomUUID(),
+    createdAt: order.createdAt || new Date().toISOString(),
+  };
 });
 
 export const updateOrderStatus = createAsyncThunk(
